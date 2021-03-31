@@ -84,6 +84,29 @@ class ListD
          used in inserting a node in a list 
    */
    doubleNode* FindPosition(int pos);
+   
+   /*
+   Comment: Simplifies constructors by running code common to both of them
+   */
+   void ConstructList();
+   
+   /*
+   pre: array of integers to be sorted along with its length
+   post: array is sorted at the end of function
+   */
+   void SelectionSort(int arr[], int len);
+   
+   /*
+   Comment: linear search through an array returns smallest element, used by SelectionSort
+   */
+   int FindSmall(int start, int arr[], int len);
+   
+   /*
+   Comment: swaps the contents of two posiitons in an array 
+   pre: array with elements in original positions
+   Output: array with smallest element swapped with the element originally in position pos
+   */
+   void Swap(int pos, int idx_small, int arr[]);
 
    int length;         //length of the list
    doubleNode* head;   //points to the first dummy node 
