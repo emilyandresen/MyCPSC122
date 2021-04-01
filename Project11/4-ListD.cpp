@@ -5,17 +5,19 @@ using namespace std;
 #include "4-ListD.h"
 
    
-ListD::ListD()
+template <typename T>
+ListD<T>::ListD()
 {
  ConstructList();
 }
 
-ListD::ListD(ListD* lst)
+template <typename T>
+ListD<T>::ListD(ListD<T>* lst)
 {
  ConstructList();
 
  //returns pointer to the first node, which is what we want here
- doubleNode* cur = lst->FindPosition(2);
+ doubleNode<T>* cur = lst->FindPosition(2);
  for (int i = 1; i <= lst->length; i++)
  {
   Insert(cur->item,i);
@@ -23,7 +25,8 @@ ListD::ListD(ListD* lst)
  }
 }
 
-ListD::~ListD()
+template <typename T>
+ListD<T>::~ListD()
 {
   //loop as many times as there are nodes in the list, deleting the first node each time
   for (int i = 0; i < length; i++)
@@ -36,11 +39,12 @@ ListD::~ListD()
   
 }
 
-doubleNode* ListD::FindPosition(int pos)
+template <typename T>
+doubleNode<T>* ListD<T>::FindPosition(int pos)
 {
  //Inserting at the tail is a special case.  It can be made much more efficient than
  //this.
- doubleNode* cur = head;
+ doubleNode<T>* cur = head;
  int i = 0;  //begin at the dummy node
  while (i < pos - 1)
  {
@@ -50,14 +54,15 @@ doubleNode* ListD::FindPosition(int pos)
  return cur;
 } 
   
-void ListD::Insert(itemType item, int pos)
+template <typename T>
+void ListD<T>::Insert(T item, int pos)
 {
  //new node goes between these two nodes
- doubleNode* insertPtA = FindPosition(pos);  
- doubleNode* insertPtB = insertPtA->next; 
+ doubleNode<T>* insertPtA = FindPosition(pos);  
+ doubleNode<T>* insertPtB = insertPtA->next; 
 
  //create new node and set its values
- doubleNode* tmp = new doubleNode; 
+ doubleNode<T>* tmp = new doubleNode<T>; 
  tmp->prev = insertPtA;
  tmp->item = item;
  tmp->next = insertPtB;
@@ -69,10 +74,11 @@ void ListD::Insert(itemType item, int pos)
  length++;
 }
 
-void ListD::PrintForward()
+template <typename T>
+void ListD<T>::PrintForward()
 {
  //start at first non-dummy node
- doubleNode*  cur = head->next;
+ doubleNode<T>*  cur = head->next;
 
  //traverse array forward and print each node item
  int i = 0;
@@ -84,10 +90,11 @@ void ListD::PrintForward()
  }
 }
  
-void ListD::PrintBackward()
+template <typename T>
+void ListD<T>::PrintBackward()
 {
  //start at last non-dummy node
- doubleNode* cur = tail->prev;
+ doubleNode<T>* cur = tail->prev;
  
  //traverse array backward and print each node item
  int i = 0;
@@ -99,12 +106,13 @@ void ListD::PrintBackward()
   }
 }
 
-void ListD::Delete(const int pos)
+template <typename T>
+void ListD<T>::Delete(const int pos)
 {
  //node to be deleted, its predecessor, and its successor
- doubleNode* toDelete = FindPosition(pos + 1);  
- doubleNode* deletePtA = toDelete->prev;
- doubleNode* deletePtB = toDelete->next;
+ doubleNode<T>* toDelete = FindPosition(pos + 1);  
+ doubleNode<T>* deletePtA = toDelete->prev;
+ doubleNode<T>* deletePtB = toDelete->next;
  
  //set pointers for nodes before and after the insertion point
  deletePtA->next = deletePtB;
@@ -115,12 +123,13 @@ void ListD::Delete(const int pos)
  length--;
 }
 
-itemType ListD::DeleteAll(const itemType target)
+template <typename T>
+int ListD<T>::DeleteAll(T target)
 {
  int counter = 0;
  
  //start at first non-dummy node
- doubleNode*  cur = head->next;
+ doubleNode<T>*  cur = head->next;
 
  //traverse array forward and print each node item
  int i = 1;
@@ -140,13 +149,14 @@ itemType ListD::DeleteAll(const itemType target)
  return counter;
 }
 
-void ListD::ConstructList()
+template <typename T>
+void ListD<T>::ConstructList()
 {
  length = 0; 
  
  //create dummy nodes;
- head = new doubleNode;
- tail = new doubleNode;
+ head = new doubleNode<T>;
+ tail = new doubleNode<T>;
 
  //set values for head dummy node;
  head->prev = NULL;
@@ -159,13 +169,14 @@ void ListD::ConstructList()
  tail->next = NULL;
 }
 
-void ListD::Sort()
+template <typename T>
+void ListD<T>::Sort()
 {
  //creates new array to store node items
  int nodeVals[length];
  
  //start at first non-dummy node
- doubleNode*  cur = head->next;
+ doubleNode<T>*  cur = head->next;
 
  //traverse array forward and save each node item to array
  int i = 0;
@@ -188,8 +199,8 @@ void ListD::Sort()
  
 }
  
-
-void ListD::SelectionSort(int arr[], int len)
+template <typename T>
+void ListD<T>::SelectionSort(int arr[], int len)
 {
  int pass = 0;
  int start = 0;
@@ -204,7 +215,8 @@ void ListD::SelectionSort(int arr[], int len)
  }
 }
 
-int ListD::FindSmall(int start, int arr[], int len)
+template <typename T>
+int ListD<T>::FindSmall(int start, int arr[], int len)
 {
  int idx_small = start;  //candidate smallest
  int next = start + 1;    //start searching here
@@ -217,7 +229,8 @@ int ListD::FindSmall(int start, int arr[], int len)
  return idx_small;
 }
 
-void ListD::Swap(int pos, int idx_small, int arr[])
+template <typename T>
+void ListD<T>::Swap(int pos, int idx_small, int arr[])
 {
  int tmp = arr[pos];
  arr[pos] = arr[idx_small];
